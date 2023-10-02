@@ -1,0 +1,16 @@
+{
+  "name": "parcel-service",
+  "version": "1.0.0",
+  "description": "A real-time service that allows for vendors, such as flower shops or restaurants, to alert a system of a package needing to be delivered, for drivers to instantly see what’s in their pickup queue, and then to alert the vendors as to the state of the deliveries (in transit, and then delivered).",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "start": "node hub.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
