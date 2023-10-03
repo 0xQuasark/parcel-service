@@ -17,5 +17,5 @@ A real-time service that allows for vendors, such as flower shops or restaurants
 
 ## UML
 
-![Whiteboard1](whiteboard1.jpeg)
-![whiteboard2](whiteboard2.jpeg)
+![Whiteboard1](./assets/images/whiteboard1.jpeg)
+![whiteboard2](./assets/images/whiteboard2.jpeg)

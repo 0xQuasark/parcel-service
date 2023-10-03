@@ -1,8 +1,7 @@
 'use strict';
 
-const events = require('events');
+const EventEmitter = require('events');
 
-// a singleton
-const eventEmitter = new events.EventEmitter();
+const globalEventPool = new EventEmitter();
 
-module.exports = eventEmitter;
+module.exports = globalEventPool;
