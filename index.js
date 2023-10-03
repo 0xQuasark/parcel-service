@@ -11,11 +11,13 @@ require('./driver/driver.js');
 var chance = new Chance();
 
 const order = {
-  store: chance.company(),
+  storeName: chance.company(),
+  // storeName: '1-206-flowers',
   orderId: chance.guid(),
   customer: chance.name(),
   address: chance.address()
 }
 
+// console.log('about to place order')
 placeOrder(order);
 
