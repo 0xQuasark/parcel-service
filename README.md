@@ -17,5 +17,8 @@ A real-time service that allows for vendors, such as flower shops or restaurants
 
 ## UML
 
+### Phase 2
+![Phase2 UML](assets/images/phase2.png)
+### Phase 1
 ![Whiteboard1](./assets/images/whiteboard1.jpeg)
 ![whiteboard2](./assets/images/whiteboard2.jpeg)
