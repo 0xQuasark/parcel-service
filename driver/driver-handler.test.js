@@ -1,21 +1,6 @@
-// const events = require('../eventPool');
-// jest.mock('../eventPool');
+'use strict'
 
-// describe('Driver Module', () => {
-//   it('should log a pickup message when a pickup event is emitted', () => {
-//     console.log = jest.fn();
-//     events.emit('pickup', { orderId: '123' });
-//     expect(console.log).toHaveBeenCalledWith('DRIVER: picked up 123');
-//   });
-
-//   it('should emit an in-transit event after picking up an order', () => {
-//     events.emit('pickup', { orderId: '123' });
-//     expect(events.emit).toHaveBeenCalledWith('in-transit', { orderId: '123' });
-//   });
-
-// });
-
-const { placeOrder } = require('../vendor/vendor.js');
+// const { placeOrder } = require('../vendor/vendor.js');
 
 const SocketIO = require('socket.io-mock');
 const socket = new SocketIO();
@@ -31,9 +16,6 @@ describe('Driver Module', () => {
 
     socket.emit = jest.fn();
     socket.emit('pickup', orderDetails);
-    // expect(socket.emit).toHaveBeenCalledWith('join', orderDetails);
     expect(socket.emit).toHaveBeenCalledWith('pickup', orderDetails);
-    // expect(socket.emit).toHaveBeenCalledWith('in-transit', orderDetails);
-    // expect(socket.emit).toHaveBeenCalledWith('delivered', orderDetails);
   });
 });
