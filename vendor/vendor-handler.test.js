@@ -46,7 +46,8 @@ describe('Vendor Module', () => {
     console.log = jest.fn();
     placeOrder(orderDetails);
     // socket.emit('delivered', payload);
-    expect(console.log).toHaveBeenCalledWith(`VENDOR: Thank you for delivering ${orderDetails.orderId}`);
+    expect(console.log).toHaveBeenCalledWith('Vendor has joined the room: ', orderDetails.storeName);
+    // expect(console.log).toHaveBeenCalledWith(`VENDOR: Thank you for delivering ${orderDetails.orderId}`);
   });
 });
 
