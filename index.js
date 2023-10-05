@@ -3,7 +3,7 @@
 var Chance = require('chance');
 
 require('./hub.js');        // I notice that the order that the listeners execute depends on when we import
-const { placeOrder } = require('./vendor/vendor.js');
+const { placeOrderForStore } = require('./vendor/vendor.js');
 require('./driver/driver.js');
 
 
@@ -19,5 +19,5 @@ const order = {
 }
 
 // console.log('about to place order')
-placeOrder(order);
+placeOrderForStore(order.storeName, order);
 

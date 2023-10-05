@@ -3,15 +3,13 @@
 const { Server } = require('socket.io');
 require('dotenv').config();
 const PORT = process.env.PORT || 3002;
-const SERVER_URL = process.env.SERVER_URL + ':' + PORT|| 'http://localhost:3002';
+const SERVER_URL = process.env.SERVER_URL + ':' + PORT || 'http://localhost:3002';
+const MessageQueue = require('./MessageQueue');
 
-let server = new Server(PORT); // as soon as this line runs, we have something to connect to.
+let server = new Server(PORT);
 let capsServer = server.of('/caps');
-
-const logEvent = (eventName, payload) => {
-  let dateTime = new Date().toISOString();
-  console.log(`EVENT { event: '${eventName}', time: ${dateTime}, payload: ${JSON.stringify(payload)} }`);
-};
+let driverQueue = new MessageQueue();
+let vendorQueue = new MessageQueue();
 
 const logger = (type) => (payload) => {
   const eventDetails = {
@@ -23,47 +21,31 @@ const logger = (type) => (payload) => {
 }
 
 capsServer.on('connection', socket => {
-  // console.log('Welcome to the CAPS server!');
-
   socket.on('join', payload => {
-    // console.log('ROOM Joined: ', payload.storeName);
     socket.join(payload.storeName);
   });
-  
+
   socket.on('pickup', payload => {
     socket.broadcast.emit('pickup', payload);
     logger('pickup')(payload);
+    driverQueue.store(payload.orderId, payload);
   });
 
-  socket.on('in-transit', payload => {
-    socket.broadcast.emit('in-transit', payload);
-    logger('in-transit')(payload);
-  });
-  
   socket.on('delivered', payload => {
     socket.broadcast.emit('delivered', payload);
     logger('delivered')(payload);
+    vendorQueue.store(payload.orderId, payload);
+    socket.emit('get-messages', { clientId: payload.storeName, eventName: 'delivered' });
   });
 
-});  
+  socket.on('received', payload => {
+    driverQueue.remove(payload.messageId);
+    vendorQueue.remove(payload.messageId);
+  });
 
-///////////////////////////////////
-// const events = require('./eventPool');
-
-// const logEvent = (eventName, payload) => {
-//   let dateTime = new Date().toISOString();
-//   console.log(`EVENT { event: '${eventName}', time: ${dateTime}, payload: ${JSON.stringify(payload)} }`);
-// };
-
-// events.on('pickup', payload => {
-//   logEvent('pickup', payload);
-// });
-
-// events.on('in-transit', payload => {
-//   logEvent('in-transit', payload);
-// });
-
-// events.on('delivered', payload => {
-//   logEvent('delivered', payload);
-// });
-///////////////////////////////////
+  socket.on('getAll', payload => {
+    let queue = payload.eventName === 'pickup' ? driverQueue : vendorQueue;
+    let allMessages = queue.getAll();
+    allMessages.forEach(message => socket.emit('messages', message));
+  });
+});
